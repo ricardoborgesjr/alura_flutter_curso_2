@@ -14,8 +14,24 @@ class TaskInherited extends InheritedWidget {
     Task('Jogar', 'assets/images/jogar.jpg', 1)
   ];
 
+  double globalLevel = 0;
+
   void newTask(String name, String photo, int difficulty) {
     listTask.add(Task(name, photo, difficulty));
+  }
+
+  void calculateGlobalLevel() {
+    int level = 0;
+    int difficulty = 0;
+
+    globalLevel = 0;
+
+    for (int i = 0; i < listTask.length; i++) {
+      level = listTask[i].nivel;
+      difficulty = listTask[i].dificuldade;
+
+      globalLevel += level * (difficulty / 10);
+    }
   }
 
   static TaskInherited of(BuildContext context) {
@@ -27,6 +43,7 @@ class TaskInherited extends InheritedWidget {
 
   @override
   bool updateShouldNotify(TaskInherited oldWidget) {
-    return oldWidget.listTask.length != listTask.length;
+    return oldWidget.listTask.length != listTask.length ||
+        oldWidget.globalLevel != globalLevel;
   }
 }
